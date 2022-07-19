@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %} Doctor {% endblock %}
+
+{% block content %} 
+
+<div class="container center">
+    <div class="row">
+        <div class="col s12 m12">
+          <div class="card large">
+            <div class="card-image">
+              <img src="https://images.pexels.com/photos/3046023/pexels-photo-3046023.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+              <span class="card-title">Registro completado</span>
+            </div>
+            <div class="card-content">
+              <p>Su proceso de registro se ha completado con exito, para ver sus credenciales de usuario presione el siguiente boton, 
+                recuerde que puede cambiarlas cuando lo desee.</p>
+            </div>
+            <div class="card-action">
+              <!-- Modal Trigger -->
+              <a class="waves-effect waves-light btn modal-trigger indigo darken-4" href="#modal1">Presioname</a>
+              <a class="waves-effect waves-light btn indigo darken-4">Iniciar sesion</a>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+
+
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <h4>Credenciales de inicio de sesion</h4>
+    <br>
+    <p>Su id de usuario es: {{data.doctor_account.doctor_account_id}} <br>
+        Su correo es:  {{data.doctor_account.doctor_email}} <br>
+        Su nombre de usuario es: {{data.doctor_account.doctor_username}} <br>
+        Su contraseña es: {{data.doctor_account.doctor_password}} <br>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Listo</a>
+  </div>
+</div>
+
+{% endblock %}
