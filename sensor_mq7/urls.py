@@ -23,6 +23,10 @@ urlpatterns = [
     path('login/', views.login),
     path('register/', views.register),
     path('succes/', views.succes),
+    path('succes/<int:id>', views.succes_id),
+    path('propietario/', views.propietario),
+    path('propietario/<int:id>', views.propietario_id),
+    path('actualizar/<int:id>', views.actualizar_id),
     path('api/', include('web_app.urls')),
 ]
 

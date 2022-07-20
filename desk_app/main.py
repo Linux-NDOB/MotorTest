@@ -27,6 +27,18 @@ class MainWindow(QMainWindow):
         #self.ui.ppm.rpb_textValue = str(1000)
         self.ui.ppm.setText(str(ppmv))
 
+        if (self.ppmv < 1500):
+            print(self.ppmv)
+            self.ui.resultado.setText("POSITIVO");
+            self.resultado = "Si puede rodar"
+
+        self.ppmv = int(self.ui.ppm.text())
+
+        if (int(self.ppmv) > 1500):
+            print(self.ppmv)
+            self.ui.resultado.setText("NEGATIVO");
+            self.resultado = "No puede rodar"
+
     def __init__(self):
         super(MainWindow, self).__init__()
         self.ui = Mq()
@@ -62,15 +74,6 @@ class MainWindow(QMainWindow):
         self.resultado = ""
 
         self.ppmv = int(self.ui.ppm.text())
-
-        if (self.ppmv >= 1500):
-            self.ui.resultado.setText("NEGATIVO");
-            self.resultado = "No puede rodar"
-        elif (self.ppmv < 1500):
-            self.ui.resultado.setText("POSITIVO");
-            self.resultado = "Si puede rodar"
-
-
 
         #self.ui.ppm.setText(str(self.ppm))
 
@@ -146,7 +149,7 @@ class MainWindow(QMainWindow):
         nombre_oficina = str(self.ui.registrar_nombre_oficina.text())
 
         try:
-            connection = mysql.connector.connect(host='localhost', database='moto', user='root', password='kodokushi')
+            connection = mysql.connector.connect(host='localhost', database='moto', user='root', password='')
 
             mySql_insert_query = """INSERT INTO Oficina ( idOficina, d_ubicacion, nombre )
                                    VALUES 
@@ -186,6 +189,7 @@ class MainWindow(QMainWindow):
                 print("OK!")
 
         finally:
+            connection
             if connection.is_connected():
                 connection.close()
                 print("MySQL connection is closed")
@@ -199,7 +203,7 @@ class MainWindow(QMainWindow):
         cedula_registrar = int(self.ui.cedula_moto_registrar.text())
 
         try:
-            connection = mysql.connector.connect(host='localhost', database='moto', user='root', password='kodokushi')
+            connection = mysql.connector.connect(host='localhost', database='moto', user='root', password='')
 
             mySql_insert_query = """INSERT INTO Motocicleta ( placa, modelo, Propietario_cedula )
                                                VALUES 
@@ -258,7 +262,7 @@ class MainWindow(QMainWindow):
         contraseña = str(self.ui.contra.text())
 
         try:
-            connection = mysql.connector.connect(host='localhost', database='moto', user='root', password='kodokushi')
+            connection = mysql.connector.connect(host='localhost', database='moto', user='root', password='')
 
             mySql_insert_query = """INSERT INTO Propietario ( cedula, nombre, s_nombre, apellido, s_apellido, f_nacimiento, contra )
                                                VALUES 
@@ -316,7 +320,7 @@ class MainWindow(QMainWindow):
         hoy = str(date.today())
 
         try:
-            connection = mysql.connector.connect(host='localhost', database='moto', user='root', password='kodokushi')
+            connection = mysql.connector.connect(host='localhost', database='moto', user='root', password='')
 
             mySql_insert_query = """INSERT INTO Prueba ( f_prueba, resultado, p_dioxido, Motocicleta_placa, Oficina_idOficina )
                                                VALUES 

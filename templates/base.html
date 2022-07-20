@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+
 <html lang="es">
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -130,6 +131,14 @@
       $('.fixed-action-btn').floatingActionButton();
     });
   </script>
+
+  <script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.collapsible');
+    var instances = M.Collapsible.init(elems);
+  });
+  </script>
+
 
   <script type="text/javascript" src="{% static 'index.js' %}"></script>
 

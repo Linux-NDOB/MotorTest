@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+
+{% block title %} Propietario {% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+  <ul id="slide-out" class="sidenav">
+    <li><div class="user-view">
+      <div class="background">
+        <img src="https://images.pexels.com/photos/1502286/pexels-photo-1502286.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+      </div>
+      <a href="#user"><img class="circle" src="https://images.pexels.com/photos/5490142/pexels-photo-5490142.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"></a>
+      <a href="#name"><span class="white-text name">{{data.propietario.nombre}}</span></a>
+    </div></li>
+    <li><a class="subheader">Propietario</a></li>
+    <li><a href="/actualizar/{{ data.propietario.cedula }}"><i class="material-icons">sync_alt</i>Actualizar datos</a></li>  </ul>
+
+
+
+</div>
+
+
+
+
+<div class="section white">
+  <div class="row container">
+    <h2 class="header">Hola  {{data.propietario.nombre}}</h2>
+    <p class="grey-text text-darken-3 lighten-3">Parallax is an effect where the background content or image in this case, is moved at a different speed than the foreground content while scrolling.</p>
+  </div>
+</div>
+      <div class=" container  ">
+
+        <div class="grey-text text-darken-3 lighten-3">Lorem ipsum dolor sit amet consectetur
+          adipisicing elit. Molestias aliquid assumenda aliquam doloremque quaerat.
+          Ea aliquam, delectus quas cum incidunt nemo, magni, recusandae qui voluptas cupiditate impedit!
+          Mollitia, magnam tenetur.
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia quo nam itaque ducimus beatae
+          illum porro veritatis earum quam velit culpa eius error, aperiam vero, fuga magnam molestias sunt
+          laudantium!
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel temporibus quasi rem, tempora aperiam inventore
+          qui iste quis, optio error voluptate laboriosam nisi, repudiandae vitae! Ipsa in ex quod et!
+        </div>
+
+
+        <br>
+</div>
+
+
+
+
+<div class="container">
+  <ul id="tabs-swipe-demo" class="tabs">
+    <li class="tab col s3"><a class="active" href="#test-swipe-1">Datos</a></li>
+    <li class="tab col s3"><a  href="#test-swipe-2">Motos</a></li>
+    <li class="tab col s3"><a href="#test-swipe-3">Registros</a></li>
+  </ul>
+  <div id="test-swipe-1" class="col s12 blue">
+
+    <h4 class="indigo center white-text">Datos</h4>
+  <ul class="collection">
+
+    <li class="collection-item avatar">
+      <i class="material-icons circle indigo">person</i>
+      <span class="title">Nombres</span>
+      <p>Primer nombre: {{data.propietario.nombre}} <br>
+         Segundo nombre: {{data.propietario.s_nombre}}
+      </p>
+
+    </li>
+    <li class="collection-item avatar">
+      <i class="material-icons circle blue">account_circle</i>
+      <span class="title">Apellidos</span>
+      <p>Primer apellido: {{data.propietario.apellido}}<br>
+         Segundo apellido: {{data.propietario.s_apellido}}
+      </p>
+
+    </li>
+    <li class="collection-item avatar">
+      <i class="material-icons circle purple">person_pin</i>
+      <span class="title">Datos</span>
+      <p>Cedula: {{data.propietario.cedula}} <br>
+
+      </p>
+
+    </li>
+  </ul>
+</div>
+  </div>
+
+
+  <div id="test-swipe-2" class="col s12 white">
+
+    <h4 class="purple center white-text container">Motos</h4>
+
+
+<div class="container striped">
+  <table class="table">
+      <thead>
+          <tr>
+              <th>Placa</th>
+              <th>Modelo</th>
+              <th>Cedula</th>
+
+          </tr>
+      </thead>
+
+
+      <tbody>
+          {% for item in motos %}
+          <td>{{ motos.moto.placa }}</td>
+          <td>{{ motos.moto.modelo }}</td>
+              <td>{{ motos.moto.propietario_cedula_id }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</div>
+
+  </div>
+  <div id="test-swipe-3" class="col s12 white">
+    <h4 class="blue center white-text container">Pruebas</h4>
+
+
+<div class="container striped">
+  <table class="table">
+      <thead>
+          <tr>
+              <th># Prueba</th>
+              <th>Fecha</th>
+              <th>Resultado</th>
+              <th>CO ppm</th>
+              <th>Placa</th>
+              <th>Oficina</th>
+          </tr>
+      </thead>
+
+
+      <tbody>
+          {% for item in prueba %}
+              <td>{{ prueba.prueba.idprueba }}</td>
+              <td>{{ prueba.prueba.f_prueba }}</td>
+              <td>{{ prueba.prueba.resultado }}</td>
+              <td>{{ prueba.prueba.p_dioxido }}</td>
+              <td>{{ prueba.prueba.motocicleta_placa }}</td>
+          <td>{{ prueba.prueba.oficina_idoficina }}</td>
+
+
+
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</div>
+  </div>
+</div>
+
+
+
+</div>
+
+<div class="parallax-container">
+  <div class="parallax"><img src="https://images.pexels.com/photos/1619317/pexels-photo-1619317.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"></div>
+</div>
+
+
+<div class="fixed-action-btn floating-action-btn">
+  <a class="btn-floating btn-large red btn-large pulse indigo sidenav-trigger" data-target="slide-out">
+    <i class="large material-icons">menu</i>
+  </a>
+</div>
+
+
+{% endblock %}
+
+
+

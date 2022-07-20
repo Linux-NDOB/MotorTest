@@ -46,8 +46,8 @@ class Prueba(models.Model):
     idprueba = models.AutoField(db_column='idPrueba', primary_key=True)  # Field name made lowercase.
     oficina_idoficina = models.ForeignKey(Oficina, on_delete = models.CASCADE, db_column='Oficina_idOficina')  # Field name made lowercase.
     motocicleta_placa = models.ForeignKey(Motocicleta, on_delete = models.CASCADE, db_column='Motocicleta_placa')  # Field name made lowercase.
-    f_prueba = models.CharField(max_length=20, blank=True, null=True)
     resultado = models.CharField(max_length=50, blank=True, null=True)
+    f_prueba = models.CharField(max_length=50, blank=True, null=True)
     p_dioxido = models.IntegerField(blank=True, null=True)
 
     class Meta:

@@ -43,7 +43,7 @@ class Worker(QObject):
                             
 
                             self.intReady.emit(ppm)
-                            time.sleep(1)
+                            #time.sleep(1)
                             
                         self.finished.emit()
                         

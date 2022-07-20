@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %} Actualizar Datos {% endblock %}
+
+{% block content%} 
+
+<br>
+
+<div class="row ">
+
+      <div class="col s12 container">{% csrf_token %}
+
+          <div class="container">
+
+            <div class="col s6">
+                <img 
+                src="https://img.freepik.com/free-vector/hand-drawn-colorful-abstract-leaves-pattern_79603-1779.jpg?w=740&t=st=1656442808~exp=1656443408~hmac=8dece7abfcc85cb2002a39fad89c2bc62917f88ceec6aa07663ecd74a339b38f" 
+                alt="" width="400" height="720">
+                
+            </div>
+
+            <div class="col s6">
+                <h3 class="header pink white-text">Actuaizar Datos</h3>
+            </div>
+
+            <div class="input-field col s6">
+                <input name="person_id" value={{data.propietario.cedula}} id="r_cedula" type="text" class="validate">
+                <label for="first_name">Cedula</label>
+              </div>
+
+              <div class="input-field col s6">
+                <input name="name" value={{data.propietario.nombre}} id="r_nombre" type="text" class="validate">
+                <label for="first_name">Nombre</label>
+              </div>
+
+              <div class="input-field col s6">
+                <input name="second_name" value={{data.propietario.s_nombre}} id="r_s_nombre" type="text" class="validate">
+                <label for="first_name">Segundo nombre</label>
+              </div>
+
+              <div class="input-field col s6">
+                <input name="lastname" value={{data.propietario.apellido}} id="r_apellido" type="text" class="validate">
+                <label for="first_name">Apellido</label>
+              </div>
+
+              <div class="input-field col s6">
+                <input name="second_lastname" value={{data.propietario.s_apellido}} id="r_s_apellido" type="text" class="validate">
+                <label for="first_name">Segundo Apellido</label>
+              </div>
+
+              <div class="input-field col s6">
+                <input name="age" value={{data.propietario.f_nacimiento}} id="r_f_nacimiento" type="text" class="validate">
+                <label for="first_name">Fecha de nacimiento</label>
+              </div>
+
+              <div class="input-field col s6">
+                <input name="age" value={{data.propietario.contra}} id="r_contra" type="text" class="validate">
+                <label for="first_name">Contraseña</label>
+              </div>
+
+            </div>
+                         
+            <div class="center">
+              <button onclick="actualizar()" class="btn pink col s4 container" type="submit">Actualizar</button>
+            </div>
+               </div>
+      </div>
+    </div>
+
+{% endblock%}

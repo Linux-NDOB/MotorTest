@@ -22,18 +22,6 @@ let s_apellido_field = d.getElementById("s_apellido");
 let f_nacimiento_field = d.getElementById("f_nacimiento");
 
 
-function safe_login_user() {
-    console.log('safe_login_user');
-    if (user_login_field.value != '' && user_login_password_field.value != '') {
-        console.log('valid');
-        user_login_button.disabled = false;
-    } else {
-        console.log('invalid');
-        user_login_button.disabled = true;
-    }
-
-}
-
 // Login User
 function validate_user() {
     let user_id = user_login_field.value;
@@ -44,12 +32,12 @@ function validate_user() {
     } if (user_password == '') {
         M.toast({ html: 'Campo de contrasena vacio!' });
     } if (user_id != '' && user_password != '') {
-        fetch('http://localhost:8000/api/propietario/' + user_id)
+        fetch('http://localhost:8000/api/propietario/'+user_id)
             .then(response => response.json())
             .then(data => {
-                if (typeof data.user_account == 'undefined') {
+                if (typeof data.propietario == 'undefined') {
                     M.toast({ html: 'Usuario no registrado en la base de datos!' });
-                } else if (user_id == data.user_account.patient_id && user_password == data.user_account.user_password) {
+                } else if (user_id == data.propietario.cedula && user_password == data.propietario.contra) {
                     location.href = '/propietario/' + user_id;
                 }
                 else {
@@ -61,6 +49,10 @@ function validate_user() {
 
 function volver_login() {
     location.href = '/home/';
+}
+
+function login() {
+    location.href = '/login/';
 }
 
 function verificar_cedula(cedula) {
@@ -81,14 +73,20 @@ function verificar_cedula(cedula) {
     return respuesta;
 }
 
+
 // Register User
 function registro() {
-    let cedula = cedula_field.value;
+
+    let cedula = parseInt(cedula_field.value);
+    let ced = cedula_field.value;
+    let t_c = ced.slice(0, 3);
     let nombre = nombre_field.value;
+    let t_n = nombre.slice(0, 3);
     let s_nombre = s_nombre_field.value;
     let apellido = apellido_field.value;
     let s_apellido = s_apellido_field.value;
     let f_nacimiento = f_nacimiento_field.value;
+    let contra = cedula.toString();
 
     if (cedula == '') {
         M.toast({ html: 'Campo de cedula vacio!' });
@@ -103,9 +101,11 @@ function registro() {
     } if (f_nacimiento == '') {
         M.toast({ html: 'Campo de f_nacimiento vacio!' });
     } if (cedula != '' && nombre != '' && s_nombre != '' && apellido != '' && s_apellido != '' && f_nacimiento != '') {
+        
         verificar_cedula(cedula);
+
         if (verificar_cedula(cedula) == false) {
-            fetch('http://localhost:8000/api/propietario/' + cedula, {
+            fetch('http://localhost:8000/api/propietario/', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -117,10 +117,11 @@ function registro() {
                     apellido: apellido,
                     s_apellido: s_apellido,
                     f_nacimiento: f_nacimiento,
+                    contra: generatePassword(),
                 }),
             })
                 .then(response => {
-                    location.href = '/propietario/' + cedula;
+                    location.href = '/succes/' + cedula;
                 })
         } else if (verificar_cedula(cedula) == true) {
             M.toast({ html: 'Cedula ya registrada en la base de datos!' });
@@ -128,27 +129,79 @@ function registro() {
     }
 }
 
- // Patient List
- const renderPost = (posts) => {
-    posts.forEach((post) => {
-        output += `
-      <div class="card mt-4 col-md-6 bg-ligt ">
-        <img src=${post.url} class="" alt="" width="100%" 
-        height="400"">
-        <div class="card-body" data-id=${post.id}>
-          <h5 class="card-title name">${post.name}</h5>
-          <h6 class="card-subtitle mb-2 text-muted price">${post.price}</h6>
-          <p class="card-title desc">${post.description}</p>
-          <p class="card-title url">${post.url}</p>
-          <a href="#" class="btn btn-primary" id="edit-post">Editar</a>
-          <a href="#" class="btn btn-primary" id="delete-post">Eliminar</a>
-        </div>
-      </div>
-`;
-    });
-    $postList.innerHTML = output;
-};
+// Random password
+function generatePassword() {
+    var length = 8,
+        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+}
 
-fetch('aasas')
-    .then((res) => res.json())
-    .then((data) => renderPost(data));
+// Valores de registro
+let r_cedula_field = d.getElementById("r_cedula");
+
+let r_nombre_field = d.getElementById("r_nombre");
+
+let r_s_nombre_field = d.getElementById("r_s_nombre");
+
+let r_apellido_field = d.getElementById("r_apellido");
+
+let r_s_apellido_field = d.getElementById("r_s_apellido");
+
+let r_f_nacimiento_field = d.getElementById("r_f_nacimiento");
+
+let r_contra_field = d.getElementById("r_contra");
+
+// Register User
+function actualizar() {
+
+    let r_cedula = parseInt(r_cedula_field.value);
+
+
+    let r_nombre = r_nombre_field.value;
+
+    let r_s_nombre = r_s_nombre_field.value;
+    let r_apellido = r_apellido_field.value;
+    let r_s_apellido = r_s_apellido_field.value;
+    let r_f_nacimiento = r_f_nacimiento_field.value;
+    let r_contra = r_contra_field.value;
+
+    if (r_cedula == '') {
+        M.toast({ html: 'Campo de cedula vacio!' });
+    } if (r_nombre == '') {
+        M.toast({ html: 'Campo de nombre vacio!' });
+    } if (r_s_nombre == '') {
+        M.toast({ html: 'Campo de s_nombre vacio!' });
+    } if (r_apellido == '') {
+        M.toast({ html: 'Campo de apellido vacio!' });
+    } if (r_s_apellido == '') {
+        M.toast({ html: 'Campo de s_apellido vacio!' });
+    } if (r_f_nacimiento == '') {
+        M.toast({ html: 'Campo de f_nacimiento vacio!' });
+    } if (r_cedula != '' && r_nombre != '' && r_s_nombre != '' && r_apellido != '' && r_s_apellido != '' && r_f_nacimiento != '') {
+
+        fetch('http://localhost:8000/api/propietario/'+r_cedula, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                cedula: r_cedula,
+                nombre: r_nombre,
+                s_nombre: r_s_nombre,
+                apellido: r_apellido,
+                s_apellido: r_s_apellido,
+                f_nacimiento: r_f_nacimiento,
+                contra: r_contra
+            }),
+        })
+            .then(response => {
+                M.toast({html: 'Datos Actualizados!'});
+                location.href = '/propietario/' + r_cedula;
+            })
+
+    }
+}

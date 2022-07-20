@@ -23,7 +23,7 @@ class Propietarios(View):
             propietario=list(Propietario.objects.filter(cedula=propietario_id).values())
             if len(propietario) > 0:
                 resultado= propietario[0]
-                data = {'propietario': person}
+                data = {'propietario': resultado}
             else:
                 data = {'msg': 'vacio'}
             return JsonResponse(data)
@@ -39,7 +39,7 @@ class Propietarios(View):
     def post(self,request):
         jd = json.loads(request.body)
         Propietario.objects.create(cedula=jd['cedula'], nombre=jd['nombre'], s_nombre=jd['s_nombre'], apellido=jd['apellido'],
-                    s_apellido=jd['s_apellido'], f_nacimiento=jd['f_nacimiento'])
+                    s_apellido=jd['s_apellido'], f_nacimiento=jd['f_nacimiento'], contra=jd['contra'])
         return JsonResponse(jd)
 
     def put(self,request, propietario_id):
@@ -52,6 +52,7 @@ class Propietarios(View):
             person.apellido = jd['apellido']
             person.s_apellido = jd['s_apellido']
             person.f_nacimiento = jd['f_nacimiento']
+            person.contra = jd['contra']
             person.save()
             data = {'msg': 'datos atualizados'}
         else:
@@ -76,9 +77,10 @@ class Motocicletas(View):
 
     def get(self, request, motocicleta_id=0):
         if (motocicleta_id > 0):
-            motos=list(Motocicleta.objects.filter(placa=motocicleta_id).values())
+            motos=list(Motocicleta.objects.filter(propietario_cedula=motocicleta_id).values())
             if len(motos) > 0:
-                moto= moto[0]
+
+                moto= motos[0]
                 data = {'moto': moto}
             else:
                 data = {'msg': 'vacio'}
@@ -100,9 +102,9 @@ class Pruebas(View):
 
     def get(self, request, prueba_id=0):
         if (prueba_id > 0):
-            pruebas=list(Prueba.objects.filter(idPrueba=prueba_id).values())
+            pruebas=list(Prueba.objects.filter(idprueba=prueba_id).values())
             if len(pruebas) > 0:
-                prueba= persons[0]
+                prueba= pruebas[0]
                 data = {'prueba': prueba}
             else:
                 data = {'msg': 'vacio'}
