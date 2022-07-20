@@ -29,15 +29,15 @@ class MainWindow(QMainWindow):
 
         if (self.ppmv < 1500):
             print(self.ppmv)
-            self.ui.resultado.setText("POSITIVO");
-            self.resultado = "Si puede rodar"
+            self.ui.resultado.setText("Inf al 3%");
+            self.resultado = "Menor al 3%"
 
         self.ppmv = int(self.ui.ppm.text())
 
         if (int(self.ppmv) > 1500):
             print(self.ppmv)
-            self.ui.resultado.setText("NEGATIVO");
-            self.resultado = "No puede rodar"
+            self.ui.resultado.setText("Sup al 3%");
+            self.resultado = "Mayor al 3%"
 
     def __init__(self):
         super(MainWindow, self).__init__()
