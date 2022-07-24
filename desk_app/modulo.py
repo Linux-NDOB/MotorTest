@@ -7,11 +7,11 @@ from json.decoder import JSONDecodeError
 class Worker(QObject):
     finished = Signal()
     intReady = Signal(int)
-    
 
     @Slot()
     def procCounter(self): # A slot takes no params
-        while True:
+        i = 0
+        while i < 30:
             try:
                 arduino_port = serial.Serial("/dev/ttyACM0", 115200, timeout=1)
                 time.sleep(1)
@@ -43,6 +43,8 @@ class Worker(QObject):
                             
 
                             self.intReady.emit(ppm)
+
+                            i+=1
                             #time.sleep(1)
                             
                         self.finished.emit()

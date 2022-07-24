@@ -164,7 +164,7 @@
      <widget class="QPushButton" name="guardar_resultado">
       <property name="geometry">
        <rect>
-        <x>450</x>
+        <x>330</x>
         <y>270</y>
         <width>111</width>
         <height>31</height>
@@ -199,7 +199,7 @@
      <widget class="QPushButton" name="comenzar">
       <property name="geometry">
        <rect>
-        <x>70</x>
+        <x>150</x>
         <y>270</y>
         <width>111</width>
         <height>31</height>
@@ -209,23 +209,7 @@
        <string notr="true">background-color:#01579b; border-radius:0; color:white;</string>
       </property>
       <property name="text">
-       <string>Start</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="parar">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>270</y>
-        <width>111</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color:#e91e63; border-radius:0; color:white;</string>
-      </property>
-      <property name="text">
-       <string>Stop</string>
+       <string>Comenzar</string>
       </property>
      </widget>
      <zorder>label</zorder>
@@ -238,7 +222,6 @@
      <zorder>label_13</zorder>
      <zorder>guardar_resultado</zorder>
      <zorder>comenzar</zorder>
-     <zorder>parar</zorder>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">

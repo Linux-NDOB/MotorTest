@@ -20,73 +20,57 @@ from ui_mainwindow import *
 
 class MainWindow(QMainWindow):
 
-    def procCounter(self):  # A slot takes no params
-        while True:
-            try:
-                arduino_port = serial.Serial("/dev/ttyACM0", 115200, timeout=1)
-                time.sleep(1)
-                if arduino_port.isOpen():
-                    while arduino_port.inWaiting() == 0: pass
-                    if arduino_port.inWaiting() > 0:
-                        write_json = open('datos.json', 'w')
-                        for i in range(3):
-                            line = arduino_port.readline().rstrip().decode('utf-8')
-                            write_json.write(line)
-                            print(line.strip())
-                            # time.sleep(0.1)
-                        write_json.close()
+    def onIntReady(self, ppm):
+        self.ppmv = ppm
+        # Imported from worker vars
+        # self.ui.ppm.rpb_textValue = str(1000)
+        self.ui.ppm.setText(str(ppmv))
 
-                        # READ JSON
-                        filesize = os.path.getsize('datos.json')
+        if (self.ppmv < 30000):
+            print(self.ppmv)
+            self.ui.resultado.setText("Inf al 3%");
+            self.resultado = "Menor al 3%"
 
-                        if filesize == 0:
+        self.ppmv = int(self.ui.ppm.text())
 
-                            # self.intReady.emit(1500)
-                            print("Empty file")
-
-                        else:
-                            with open("datos.json") as data_json:
-                                obj_json = json.load(data_json)
-                                data_json.close()
-
-                            ppm = obj_json["ppm"]
-
-                            self.ppmv = ppm
-                            # Imported from worker vars
-                            # self.ui.ppm.rpb_textValue = str(1000)
-                            self.ui.ppm.setText(str(ppm))
-
-                            if (self.ppmv < 30000):
-                                print(self.ppmv)
-                                self.ui.resultado.setText("Inf al 3%");
-                                self.resultado = "Menor al 3%"
-
-                            self.ppmv = int(self.ui.ppm.text())
-
-                            if (int(self.ppmv) > 30000):
-                                print(self.ppmv)
-                                self.ui.resultado.setText("Sup al 3%");
-                                self.resultado = "Mayor al 3%"
-
-
-                else:
-                    print("not found")
-
-            except  serial.SerialException as e:
-                print(e)
-
-            except KeyboardInterrupt as e:
-                print(e)
-
+        if (int(self.ppmv) > 30000):
+            print(self.ppmv)
+            self.ui.resultado.setText("Sup al 3%");
+            self.resultado = "Mayor al 3%"
 
     def __init__(self):
         super(MainWindow, self).__init__()
         self.ui = Mq()
         self.ui.setupUi(self)
 
+        # 1 - create Worker and Thread inside the Form
+        self.obj = modulo.Worker()  # no parent!
+        self.thread = PySide2.QtCore.QThread()  # no parent!
+
+        # 2 - Connect Worker`s Signals to Form method slots to post data.
+        self.obj.intReady.connect(self.onIntReady)
+
+        # 3 - Move the Worker object to the Thread object
+        self.obj.moveToThread(self.thread)
+
+        # 4 - Connect Worker Signals to the Thread slots
+        self.obj.finished.connect(self.thread.quit)
+
+        # 5 - Connect Thread started signal to Worker operational slot method
+
+        self.thread.started.connect(self.obj.procCounter)
+
+        # * - Thread finished signal will close the app if you want!
+        #self.thread.finished.connect(app.exit)
+
+        # 6 - Start the thread
+        #self.thread.start()
+
+        # self.onIntReady(self)
+
         self.resultado = ""
 
-        self.ppmv = int(self.ui.ppm.text())
+        #self.ppmv = int(self.ui.ppm.text())
 
         #self.ui.ppm.setText(str(self.ppm))
 
@@ -115,18 +99,14 @@ class MainWindow(QMainWindow):
         self.ui.comenzar.clicked.connect(self.comenzarr)
 
         # Stop
-        self.ui.parar.clicked.connect(self.pararr)
+        #self.ui.parar.clicked.connect(self.pararr)
 
-        self.p1 = multiprocessing.Process(target=self.procCounter)
+        #self.p1 = multiprocessing.Process(target=self.procCounter)
 
     def comenzarr(self):{
-
-        self.p1.start()
+        self.thread.start()
     }
 
-    def pararr(self):{
-        self.p1.kill()
-    }
 
     def guardar_resultados(self):
 
@@ -358,6 +338,8 @@ class MainWindow(QMainWindow):
 
             record = (hoy, self.resultado_guardado, int(self.ppm_guardado), placa_motocicleta, id_oficina)
 
+            #int(self.ppm_guardado)   str(self.ppm_guardado) self.resultado_guardado
+
             cursor = connection.cursor()
             cursor.execute(mySql_insert_query, record)
             connection.commit()
@@ -365,7 +347,12 @@ class MainWindow(QMainWindow):
 
             dlg = QMessageBox(self)
             dlg.setWindowTitle("Correcto!")
-            dlg.setText("Los datos de registro se han ennviado correctamente a su cédula")
+            dlg.setText("Los siguientes datos han sido enviados" + '\n' +
+                        "Fecha de Prueba: "+  hoy+  '\n' +
+                        "Resultado: "+ self.resultado_guardado+  '\n' +
+                        "PPM: "+ str(self.ppm_guardado)+ '\n' +
+                        "Placa: " + placa_motocicleta+  '\n'+
+                        "Oficina: " +  str(id_oficina)+'\n')
             button = dlg.exec()
 
             if button == QMessageBox.Ok:
