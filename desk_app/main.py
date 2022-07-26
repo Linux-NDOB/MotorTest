@@ -28,14 +28,14 @@ class MainWindow(QMainWindow):
 
         if (self.ppmv < 30000):
             print(self.ppmv)
-            self.ui.resultado.setText("Inf al 3%");
+            self.ui.resultado.setText("Inf al 3%")
             self.resultado = "Menor al 3%"
 
         self.ppmv = int(self.ui.ppm.text())
 
         if (int(self.ppmv) > 30000):
             print(self.ppmv)
-            self.ui.resultado.setText("Sup al 3%");
+            self.ui.resultado.setText("Sup al 3%")
             self.resultado = "Mayor al 3%"
 
     def __init__(self):
